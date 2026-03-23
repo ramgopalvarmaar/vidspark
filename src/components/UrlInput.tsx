@@ -9,6 +9,19 @@ export interface UrlInputProps {
   isLoading: boolean;
 }
 
+const AMAZON_DOMAINS = /amazon\.|amzn\.to|a\.co/i;
+
+function isValidAmazonLink(url: string): boolean {
+  const lower = url.toLowerCase();
+  if (lower.includes("amazon") || AMAZON_DOMAINS.test(url)) return true;
+  try {
+    const u = new URL(url);
+    return AMAZON_DOMAINS.test(u.hostname);
+  } catch {
+    return false;
+  }
+}
+
 export function UrlInput({ onSubmit, isLoading }: UrlInputProps) {
   const [value, setValue] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -20,7 +33,7 @@ export function UrlInput({ onSubmit, isLoading }: UrlInputProps) {
       setError("Enter a product URL.");
       return;
     }
-    if (!trimmed.toLowerCase().includes("amazon")) {
+    if (!isValidAmazonLink(trimmed)) {
       setError("Please use an Amazon product link.");
       return;
     }
