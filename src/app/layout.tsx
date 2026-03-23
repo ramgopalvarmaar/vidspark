@@ -84,6 +84,9 @@ export const metadata: Metadata = {
     images: ["/opengraph-image"],
   },
   category: "technology",
+  verification: {
+    google: "pOwlUFG5xtAkqu4wLA8JsrzQA3Sb8NRmjsqstsuPDoE",
+  },
 };
 
 const jsonLd = {
