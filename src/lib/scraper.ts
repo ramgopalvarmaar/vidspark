@@ -46,20 +46,36 @@ function pickPrice($: cheerio.CheerioAPI): string {
   return whole || "";
 }
 
-export async function scrapeAmazonProduct(url: string): Promise<ProductData> {
-  let response: Response;
-  try {
-    response = await fetch(url, { headers: buildHeaders(), redirect: "follow" });
-  } catch (err) {
-    const message = err instanceof Error ? err.message : "Network request failed";
-    throw new Error(`Failed to fetch Amazon page: ${message}`);
+const RETRY_DELAY_MS = 500;
+
+/** Fetches the URL; on network error or non-OK status, waits and retries once. */
+async function fetchAmazonPage(url: string): Promise<Response> {
+  let lastError: Error | undefined;
+
+  for (let attempt = 1; attempt <= 2; attempt++) {
+    try {
+      const response = await fetch(url, { headers: buildHeaders(), redirect: "follow" });
+      if (response.ok) {
+        return response;
+      }
+      lastError = new Error(
+        `Amazon returned HTTP ${response.status} ${response.statusText || ""}`.trim(),
+      );
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Network request failed";
+      lastError = new Error(`Failed to fetch Amazon page: ${message}`);
+    }
+
+    if (attempt < 2) {
+      await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY_MS));
+    }
   }
 
-  if (!response.ok) {
-    throw new Error(
-      `Amazon returned HTTP ${response.status} ${response.statusText || ""}`.trim(),
-    );
-  }
+  throw lastError ?? new Error("Failed to fetch Amazon page");
+}
+
+export async function scrapeAmazonProduct(url: string): Promise<ProductData> {
+  const response = await fetchAmazonPage(url);
 
   const html = await response.text();
   const $ = cheerio.load(html);

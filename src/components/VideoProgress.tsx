@@ -10,7 +10,7 @@ export interface VideoProgressProps {
 export function VideoProgress({ status, elapsedSeconds }: VideoProgressProps) {
   return (
     <motion.div
-      className="mx-auto w-full max-w-md rounded-2xl border border-border bg-card p-8 text-center shadow-sm"
+      className="mx-auto w-full max-w-xl rounded-2xl border border-border bg-card p-8 text-center shadow-sm"
       initial={{ opacity: 0, scale: 0.98 }}
       animate={{
         opacity: 1,

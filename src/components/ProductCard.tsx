@@ -13,7 +13,7 @@ export interface ProductCardProps {
 export function ProductCard({ product, onContinue, isGenerating }: ProductCardProps) {
   return (
     <motion.article
-      className="mx-auto w-full max-w-lg overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
+      className="mx-auto w-full max-w-2xl overflow-hidden rounded-2xl border border-border bg-card shadow-sm"
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}

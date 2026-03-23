@@ -9,7 +9,8 @@ export interface UrlInputProps {
   isLoading: boolean;
 }
 
-const AMAZON_DOMAINS = /amazon\.|amzn\.to|a\.co/i;
+// amazon.* = full store URLs; amzn.to / amzn.in / a.co = app & regional short links
+const AMAZON_DOMAINS = /amazon\.|amzn\.to|amzn\.in|a\.co/i;
 
 function isValidAmazonLink(url: string): boolean {
   const lower = url.toLowerCase();
@@ -43,7 +44,7 @@ export function UrlInput({ onSubmit, isLoading }: UrlInputProps) {
 
   return (
     <motion.div
-      className="mx-auto w-full max-w-2xl px-4 text-center"
+      className="mx-auto w-full max-w-3xl px-4 text-center"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}

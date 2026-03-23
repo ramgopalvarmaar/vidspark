@@ -21,7 +21,7 @@ export function ApiKeyInput({ onSubmit, isLoading }: ApiKeyInputProps) {
 
   return (
     <motion.div
-      className="mx-auto w-full max-w-lg rounded-2xl border border-border bg-card p-6 shadow-sm"
+      className="mx-auto w-full max-w-2xl rounded-2xl border border-border bg-card p-6 shadow-sm"
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}

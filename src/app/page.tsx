@@ -11,6 +11,7 @@ import { ScriptDisplay } from "@/components/ScriptDisplay";
 import { ApiKeyInput } from "@/components/ApiKeyInput";
 import { VideoProgress } from "@/components/VideoProgress";
 import { VideoPlayer } from "@/components/VideoPlayer";
+import { HowItWorks } from "@/components/HowItWorks";
 
 const STEPS = ["Find Product", "Generate Script", "Create Video"];
 
@@ -182,7 +183,7 @@ export default function Home() {
     <div className="flex min-h-screen flex-col">
       <Header />
       <main className="flex flex-1 flex-col items-center px-4 py-12 sm:px-6 sm:py-16">
-        <div className="w-full max-w-xl">
+        <div className="w-full max-w-3xl">
           {phase !== "url-input" && (
             <motion.div
               initial={{ opacity: 0, y: -8 }}
@@ -196,7 +197,7 @@ export default function Home() {
 
         {error && (
           <motion.div
-            className="mb-8 w-full max-w-lg rounded-xl border border-accent/20 bg-accent/5 px-5 py-4"
+            className="mb-8 w-full max-w-2xl rounded-xl border border-accent/20 bg-accent/5 px-5 py-4"
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
           >
@@ -250,7 +251,12 @@ export default function Home() {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
             >
-              <ScriptDisplay script={script} onContinue={handleGoToVideoStep} />
+              <ScriptDisplay
+                script={script}
+                imageUrl={product?.image}
+                imageAlt={product?.title}
+                onContinue={handleGoToVideoStep}
+              />
             </motion.div>
           )}
 
@@ -305,6 +311,8 @@ export default function Home() {
             Start over with a new product
           </motion.button>
         )}
+
+        <HowItWorks />
       </main>
 
       <footer className="border-t border-border py-6 text-center text-xs text-muted">

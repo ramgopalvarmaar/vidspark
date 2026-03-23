@@ -4,8 +4,8 @@ import { scrapeAmazonProduct } from "@/lib/scraper";
 function isAmazonUrl(url: string): boolean {
   try {
     const u = new URL(url);
-    // Accept amazon.com, amazon.in, etc., plus short links from Amazon app: amzn.to, a.co
-    return /amazon\.|amzn\.to|a\.co/i.test(u.hostname);
+    // amazon.* + short links: amzn.to, amzn.in (India), a.co
+    return /amazon\.|amzn\.to|amzn\.in|a\.co/i.test(u.hostname);
   } catch {
     return false;
   }
